@@ -1,0 +1,42 @@
+program bAlianza;
+
+uses
+  Forms,
+  uMain in 'uMain.pas' {frmMain},
+  udmConexion in 'udmConexion.pas' {dmConexion: TDataModule},
+  uABMbase in '..\inherited\uABMbase.pas' {frmABMbase},
+  uImputForm in '..\inherited\uImputForm.pas' {frmImput},
+  uBalanza in '..\inherited\uBalanza.pas' {frmBalanza},
+  uPublicos in 'uPublicos.pas',
+  uABMAduanas in 'uABMAduanas.pas' {frmABMAduanas},
+  udmAduanas in 'udmAduanas.pas' {dmAduanas: TDataModule},
+  udmExportadores in 'udmExportadores.pas' {dmExportadores: TDataModule},
+  udmChoferes in 'udmChoferes.pas' {dmChoferes: TDataModule},
+  udmVehiculos in 'udmVehiculos.pas' {dmVehiculos: TDataModule},
+  udmTransportes in 'udmTransportes.pas' {dmTransportes: TDataModule},
+  udmContenedores in 'udmContenedores.pas' {dmContenedores: TDataModule},
+  udmMercaderias in 'udmMercaderias.pas' {dmMercaderias: TDataModule},
+  uAMAduana in '..\..\NoRD\bin\uAMAduana.pas' {frmAMAduana},
+  uABMContenedores in 'uABMContenedores.pas' {frmABMContenedores},
+  uABMExportadores in 'uABMExportadores.pas' {frmABMExportadores},
+  uABMChoferes in 'uABMChoferes.pas' {frmABMChoferes},
+  uABMVehiculos in 'uABMVehiculos.pas' {frmABMVehiculos},
+  uABMTransportes in 'uABMTransportes.pas' {frmABMTransportes},
+  uABMMercaderias in 'uABMMercaderias.pas' {frmABMMercaderias},
+  uAMContenedor in 'uAMContenedor.pas' {frmAMContenedor},
+  uAMExportador in 'uAMExportador.pas' {frmAMExportador},
+  uAMChofer in 'uAMChofer.pas' {frmAMChofer},
+  uAMVehiculo in 'uAMVehiculo.pas' {frmAMVehiculo},
+  uAMTransporte in 'uAMTransporte.pas' {frmAMTransporte},
+  uAMMercaderia in 'uAMMercaderia.pas' {frmAMMercaderia},
+  uAMTicket in 'uAMTicket.pas' {frmAMTicket},
+  uRepBase in '..\inherited\uRepBase.pas' {frmRepBase},
+  uRepTicket in 'uRepTicket.pas' {frmRepTicket};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.CreateForm(TfrmMain, frmMain);
+  Application.Run;
+end.
