@@ -1,0 +1,87 @@
+unit uABMChoferes;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, uABMbase, cxStyles, cxCustomData, cxGraphics, cxFilter, cxData,
+  cxDataStorage, cxEdit, DB, cxDBData, cxGridLevel, cxClasses, cxControls,
+  cxGridCustomView, cxGridCustomTableView, cxGridTableView,
+  cxGridDBTableView, cxGrid, ExtCtrls, Buttons;
+
+type
+  TfrmABMChoferes = class(TfrmABMbase)
+    cxGridDBTableView1NRODNI: TcxGridDBColumn;
+    cxGridDBTableView1IDTIPODNI: TcxGridDBColumn;
+    cxGridDBTableView1DNI: TcxGridDBColumn;
+    cxGridDBTableView1IDNACIONALIDAD: TcxGridDBColumn;
+    cxGridDBTableView1NACIONALIDAD: TcxGridDBColumn;
+    cxGridDBTableView1NOMBRE: TcxGridDBColumn;
+    cxGridDBTableView1APELLIDO: TcxGridDBColumn;
+    procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure btnAltaClick(Sender: TObject);
+    procedure btnModiClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmABMChoferes: TfrmABMChoferes;
+
+implementation
+
+uses udmChoferes, uAMChofer;
+
+var
+  dm:TdmChoferes;
+
+{$R *.dfm}
+
+procedure TfrmABMChoferes.FormCreate(Sender: TObject);
+begin
+  inherited;
+  dm:=TdmChoferes.Create(self);
+end;
+
+procedure TfrmABMChoferes.FormDestroy(Sender: TObject);
+begin
+  inherited;
+  dm.Free;
+end;
+
+procedure TfrmABMChoferes.btnAltaClick(Sender: TObject);
+var
+  FInput:TfrmAMChofer;
+begin
+  inherited;
+  FInput:=TfrmAMChofer.Create(self);
+  try
+    dsDatos.DataSet.Insert;
+    if FInput.ShowModal = mrOK then
+      dm.grabar;
+      dsDatos.DataSet.Cancel;
+  finally
+    FInput.Free;
+  end;
+end;
+
+procedure TfrmABMChoferes.btnModiClick(Sender: TObject);
+var
+  FInput:TfrmAMChofer;
+begin
+  inherited;
+  FInput:=TfrmAMChofer.Create(self);
+  try
+    dsDatos.DataSet.Edit;
+    if FInput.ShowModal = mrOK then
+      dm.grabar;
+      dsDatos.DataSet.Cancel;
+  finally
+    FInput.Free;
+  end;
+end;
+
+end.

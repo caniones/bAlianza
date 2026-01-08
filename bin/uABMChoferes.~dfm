@@ -1,0 +1,38 @@
+inherited frmABMChoferes: TfrmABMChoferes
+  Caption = 'Choferes'
+  OldCreateOrder = True
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited Panel1: TPanel
+    inherited btnAlta: TSpeedButton
+      OnClick = btnAltaClick
+    end
+    inherited btnModi: TSpeedButton
+      OnClick = btnModiClick
+    end
+  end
+  inherited cxGrid: TcxGrid
+    inherited cxGridDBTableView1: TcxGridDBTableView
+      object cxGridDBTableView1NRODNI: TcxGridDBColumn
+        DataBinding.FieldName = 'NRODNI'
+      end
+      object cxGridDBTableView1IDTIPODNI: TcxGridDBColumn
+        DataBinding.FieldName = 'IDTIPODNI'
+      end
+      object cxGridDBTableView1IDNACIONALIDAD: TcxGridDBColumn
+        DataBinding.FieldName = 'IDNACIONALIDAD'
+      end
+      object cxGridDBTableView1NOMBRE: TcxGridDBColumn
+        DataBinding.FieldName = 'NOMBRE'
+      end
+      object cxGridDBTableView1APELLIDO: TcxGridDBColumn
+        DataBinding.FieldName = 'APELLIDO'
+      end
+    end
+  end
+  inherited dsDatos: TDataSource
+    DataSet = dmChoferes.zqChoferes
+  end
+end
