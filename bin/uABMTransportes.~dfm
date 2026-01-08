@@ -1,0 +1,31 @@
+inherited frmABMTransportes: TfrmABMTransportes
+  Left = 464
+  Top = 184
+  Caption = 'Transportes'
+  OldCreateOrder = True
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited Panel1: TPanel
+    inherited btnAlta: TSpeedButton
+      OnClick = btnAltaClick
+    end
+  end
+  inherited cxGrid: TcxGrid
+    inherited cxGridDBTableView1: TcxGridDBTableView
+      object cxGridDBTableView1IDTRANSPORTE: TcxGridDBColumn
+        DataBinding.FieldName = 'IDTRANSPORTE'
+      end
+      object cxGridDBTableView1CUIT: TcxGridDBColumn
+        DataBinding.FieldName = 'CUIT'
+      end
+      object cxGridDBTableView1RAZONSOCIAL: TcxGridDBColumn
+        DataBinding.FieldName = 'RAZONSOCIAL'
+      end
+    end
+  end
+  inherited dsDatos: TDataSource
+    DataSet = dmTransportes.zqTransportes
+  end
+end
