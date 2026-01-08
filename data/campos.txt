@@ -1,0 +1,18 @@
+IDTICKET 15
+CODIGO LOT - MERCADERIA 20
+FECHAHORA - ENTRADA - SALIDA 20
+RAZON SOCIAL - NACIONALIDAD - NOMBRE APELLIDO - IDCONTENEDOR 30
+DNI - PESOS - PATENTES 15
+
+
+Forma de pago 20
+Cuenta destino 25
+Importe 20 $#,##0.00
+Fecha 15
+Observaciones 20
+Usuario 20
+Fechahora 20
+
+NroCliente 15
+Cliente 30
+Estado 15
