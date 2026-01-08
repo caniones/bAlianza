@@ -1,0 +1,86 @@
+unit uBalanza;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, uImputForm, StdCtrls, Buttons, ExtCtrls, CPort, DB;
+
+type
+  TfrmBalanza = class(TfrmImput)
+    Memo: TMemo;
+    btnConfigurar: TSpeedButton;
+    btnProbar: TSpeedButton;
+    ComPort: TComPort;
+    procedure btnConfigurarClick(Sender: TObject);
+    procedure btnProbarClick(Sender: TObject);
+    procedure ComPortRxChar(Sender: TObject; Count: Integer);
+    procedure btnSalirClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure btnAceptarClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmBalanza: TfrmBalanza;
+
+implementation
+
+uses uPublicos;
+
+{$R *.dfm}
+
+procedure TfrmBalanza.btnConfigurarClick(Sender: TObject);
+begin
+  inherited;
+  ComPort.ShowSetupDialog;
+end;
+
+procedure TfrmBalanza.btnProbarClick(Sender: TObject);
+begin
+  inherited;
+  if ComPort.Connected then
+    ComPort.Close
+  else
+    ComPort.Open;
+end;
+
+procedure TfrmBalanza.ComPortRxChar(Sender: TObject; Count: Integer);
+var
+  Str: String;
+begin
+  inherited;
+  ComPort.ReadStr(Str, Count);
+  Memo.Text := Memo.Text + Str;
+
+end;
+
+procedure TfrmBalanza.btnSalirClick(Sender: TObject);
+begin
+  inherited;
+  Modalresult:= mrOK;
+end;
+
+procedure TfrmBalanza.FormCreate(Sender: TObject);
+begin
+  inherited;
+  ComPort.BaudRate:=StrToBaudRate(uPublicos.LeerIni(ChangeFileExt(Application.ExeName,
+    '.INI'), 'BALANZA','BAUDRATE',''));
+  ComPort.Port:=uPublicos.LeerIni(ChangeFileExt(Application.ExeName,
+    '.INI'), 'BALANZA','PORT','');
+end;
+
+procedure TfrmBalanza.btnAceptarClick(Sender: TObject);
+begin
+  inherited;
+  uPublicos.GrabarIni(ChangeFileExt(Application.ExeName, '.INI'),
+    'BALANZA','BAUDRATE',BaudRateToStr(ComPort.BaudRate));
+  uPublicos.GrabarIni(ChangeFileExt(Application.ExeName, '.INI'),
+    'BALANZA','PORT',ComPort.Port);
+  self.ModalResult:=mrOK;
+end;
+
+end.
