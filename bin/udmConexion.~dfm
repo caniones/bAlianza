@@ -1,0 +1,479 @@
+object dmConexion: TdmConexion
+  OldCreateOrder = False
+  OnCreate = DataModuleCreate
+  Left = 580
+  Top = 252
+  Height = 390
+  Width = 457
+  object zConnection: TZConnection
+    ControlsCodePage = cGET_ACP
+    AutoEncodeStrings = True
+    Properties.Strings = (
+      'AutoEncodeStrings=True'
+      'controls_cp=GET_ACP')
+    AutoCommit = False
+    TransactIsolationLevel = tiReadCommitted
+    Connected = True
+    DesignConnection = True
+    BeforeConnect = zConnectionBeforeConnect
+    HostName = '192.168.2.12'
+    Port = 0
+    Database = '/firebird/data/balianza.fdb '
+    User = 'sysdba'
+    Password = 'masterkey'
+    Protocol = 'firebird-2.5'
+    Left = 40
+    Top = 16
+  end
+  object zqTickets: TZQuery
+    Connection = zConnection
+    SortedFields = 'IDTICKET'
+    SortType = stDescending
+    UpdateObject = zusTickets
+    OnNewRecord = zqTicketsNewRecord
+    SQL.Strings = (
+      
+        'SELECT r.IDTICKET, r.FECHAHORA, r.IDADUANA, A.CODIGOLOT AS CODIG' +
+        'O_LOT, '
+      '    r.IDEXPORTADOR, E.RAZONSOCIAL AS EXPORTADOR,  '
+      
+        '    r.IDTRANSPORTE, T.RAZONSOCIAL AS TRANSPORTE, C.NOMBRE||'#39' '#39'||' +
+        'C.APELLIDO AS CHOFER,'
+      
+        '    r.IDENTIFICADOR, r.IDMERCADERIA, M.DESCRIPCION AS MERCADERIA' +
+        ', '
+      '    r.IDVEHICULO, r.DNICHOFER, r.PESOTARA,'
+      
+        '    r.PESOBRUTO, r.PESONETO, r.IDCONTENEDOR, r.IDESTADO, r.ENTRA' +
+        'DA, r.SALIDA'
+      'FROM TICKETS r'
+      'INNER JOIN ADUANAS A ON A.IDADUANA = R.IDADUANA'
+      'INNER JOIN EXPORTADORES E ON E.IDEXPORTADOR = R.IDEXPORTADOR'
+      'INNER JOIN TRANSPORTES T ON T.IDTRANSPORTE = R.IDTRANSPORTE'
+      'INNER JOIN MERCADERIAS M ON M.IDMERCADERIA = R.IDMERCADERIA'
+      'INNER JOIN CHOFERES C ON C.NRODNI = R.DNICHOFER')
+    Params = <>
+    IndexFieldNames = 'IDTICKET Desc'
+    Sequence = zsTickets
+    SequenceField = 'IDTICKET'
+    Left = 40
+    Top = 96
+    object zqTicketsIDTICKET: TIntegerField
+      DisplayWidth = 15
+      FieldName = 'IDTICKET'
+      Required = True
+    end
+    object zqTicketsFECHAHORA: TDateTimeField
+      DisplayWidth = 20
+      FieldName = 'FECHAHORA'
+      Required = True
+    end
+    object zqTicketsIDADUANA: TIntegerField
+      FieldName = 'IDADUANA'
+    end
+    object zqTicketsCODIGO_LOT: TStringField
+      DisplayWidth = 20
+      FieldName = 'CODIGO_LOT'
+      Size = 10
+    end
+    object zqTicketsIDEXPORTADOR: TIntegerField
+      FieldName = 'IDEXPORTADOR'
+    end
+    object zqTicketsEXPORTADOR: TStringField
+      DisplayWidth = 30
+      FieldName = 'EXPORTADOR'
+      Size = 100
+    end
+    object zqTicketsIDTRANSPORTE: TIntegerField
+      FieldName = 'IDTRANSPORTE'
+    end
+    object zqTicketsTRANSPORTE: TStringField
+      DisplayWidth = 30
+      FieldName = 'TRANSPORTE'
+      Size = 100
+    end
+    object zqTicketsIDENTIFICADOR: TStringField
+      DisplayWidth = 30
+      FieldName = 'IDENTIFICADOR'
+      Size = 100
+    end
+    object zqTicketsIDMERCADERIA: TIntegerField
+      FieldName = 'IDMERCADERIA'
+    end
+    object zqTicketsMERCADERIA: TStringField
+      DisplayWidth = 20
+      FieldName = 'MERCADERIA'
+      Size = 100
+    end
+    object zqTicketsIDVEHICULO: TIntegerField
+      FieldName = 'IDVEHICULO'
+    end
+    object zqTicketsDNICHOFER: TIntegerField
+      DisplayWidth = 15
+      FieldName = 'DNICHOFER'
+    end
+    object zqTicketsCHOFER: TStringField
+      DisplayWidth = 30
+      FieldName = 'CHOFER'
+      ReadOnly = True
+      Size = 101
+    end
+    object zqTicketsPESOTARA: TIntegerField
+      DisplayWidth = 15
+      FieldName = 'PESOTARA'
+    end
+    object zqTicketsPESOBRUTO: TIntegerField
+      DisplayWidth = 15
+      FieldName = 'PESOBRUTO'
+    end
+    object zqTicketsPESONETO: TIntegerField
+      DisplayWidth = 15
+      FieldName = 'PESONETO'
+    end
+    object zqTicketsIDCONTENEDOR: TIntegerField
+      FieldName = 'IDCONTENEDOR'
+    end
+    object zqTicketsIDESTADO: TIntegerField
+      FieldName = 'IDESTADO'
+    end
+    object zqTicketsENTRADA: TDateTimeField
+      DisplayWidth = 20
+      FieldName = 'ENTRADA'
+    end
+    object zqTicketsSALIDA: TDateTimeField
+      DisplayWidth = 20
+      FieldName = 'SALIDA'
+    end
+  end
+  object zusTickets: TZUpdateSQL
+    InsertSQL.Strings = (
+      
+        'INSERT INTO TICKETS (IDTICKET, FECHAHORA, IDADUANA, IDEXPORTADOR' +
+        ', IDTRANSPORTE,'
+      
+        '    IDENTIFICADOR, IDMERCADERIA, IDVEHICULO, DNICHOFER, PESOTARA' +
+        ', PESOBRUTO,'
+      '    PESONETO, IDCONTENEDOR, IDESTADO, ENTRADA, SALIDA)'
+      'VALUES ('
+      '    :IDTICKET, '
+      '    '#39'now'#39', '
+      '    :IDADUANA, '
+      '    :IDEXPORTADOR, '
+      '    :IDTRANSPORTE, '
+      '    :IDENTIFICADOR, '
+      '    :IDMERCADERIA, '
+      '    :IDVEHICULO, '
+      '    :DNICHOFER, '
+      '    :PESOTARA, '
+      '    :PESOBRUTO, '
+      '    :PESONETO, '
+      '    :IDCONTENEDOR, '
+      '    :IDESTADO,'
+      '    '#39'now'#39', '
+      '    '#39'now'#39
+      ');')
+    ModifySQL.Strings = (
+      'UPDATE TICKETS a'
+      'SET '
+      '    a.IDADUANA = :IDADUANA, '
+      '    a.IDEXPORTADOR = :IDEXPORTADOR, '
+      '    a.IDTRANSPORTE = :IDTRANSPORTE, '
+      '    a.IDENTIFICADOR = :IDENTIFICADOR, '
+      '    a.IDMERCADERIA = :IDMERCADERIA, '
+      '    a.IDVEHICULO = :IDVEHICULO, '
+      '    a.DNICHOFER = :DNICHOFER, '
+      '    a.PESOTARA = :PESOTARA, '
+      '    a.PESOBRUTO = :PESOBRUTO, '
+      '    a.PESONETO = :PESONETO, '
+      '    a.IDCONTENEDOR = :IDCONTENEDOR, '
+      '    a.IDESTADO = :IDESTADO,'
+      '    a.ENTRADA = :ENTRADA,'
+      '    a.SALIDA = :SALIDA'
+      'WHERE'
+      '    a.IDTICKET = :IDTICKET;')
+    UseSequenceFieldForRefreshSQL = False
+    Left = 40
+    Top = 192
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'IDADUANA'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'IDEXPORTADOR'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'IDTRANSPORTE'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'IDENTIFICADOR'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'IDMERCADERIA'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'IDVEHICULO'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'DNICHOFER'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'PESOTARA'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'PESOBRUTO'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'PESONETO'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'IDCONTENEDOR'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'IDESTADO'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'ENTRADA'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'SALIDA'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'IDTICKET'
+        ParamType = ptUnknown
+      end>
+  end
+  object zsTickets: TZSequence
+    Connection = zConnection
+    SequenceName = 'TICKETS'
+    Left = 40
+    Top = 144
+  end
+  object zroqAduanas: TZReadOnlyQuery
+    Connection = zConnection
+    SQL.Strings = (
+      
+        'SELECT r.IDADUANA, r.CODIGOLOT||'#39' - '#39'||r.NROCERTIFICADO||'#39' - '#39'||' +
+        'r.FECHAVENCIMIENTO AS DESCRIPCION ,r.CODIGOLOT, r.NROCERTIFICADO' +
+        ', r.FECHAVENCIMIENTO'
+      'FROM ADUANAS r')
+    Params = <>
+    Left = 176
+    Top = 96
+    object zroqAduanasIDADUANA: TIntegerField
+      FieldName = 'IDADUANA'
+      ReadOnly = True
+    end
+    object zroqAduanasDESCRIPCION: TStringField
+      FieldName = 'DESCRIPCION'
+      ReadOnly = True
+      Size = 126
+    end
+    object zroqAduanasCODIGOLOT: TStringField
+      FieldName = 'CODIGOLOT'
+      ReadOnly = True
+      Size = 10
+    end
+    object zroqAduanasNROCERTIFICADO: TStringField
+      FieldName = 'NROCERTIFICADO'
+      ReadOnly = True
+      Size = 100
+    end
+    object zroqAduanasFECHAVENCIMIENTO: TDateField
+      FieldName = 'FECHAVENCIMIENTO'
+      ReadOnly = True
+    end
+  end
+  object zroqExportadores: TZReadOnlyQuery
+    Connection = zConnection
+    SQL.Strings = (
+      'SELECT r.IDEXPORTADOR, r.CUIT, r.RAZONSOCIAL, r.FECHABAJA'
+      'FROM EXPORTADORES r')
+    Params = <>
+    Left = 272
+    Top = 96
+  end
+  object zroqTransportes: TZReadOnlyQuery
+    Connection = zConnection
+    SQL.Strings = (
+      'SELECT r.IDTRANSPORTE, r.CUIT, r.RAZONSOCIAL'
+      'FROM TRANSPORTES r')
+    Params = <>
+    Left = 176
+    Top = 144
+    object zroqTransportesIDTRANSPORTE: TIntegerField
+      FieldName = 'IDTRANSPORTE'
+      ReadOnly = True
+    end
+    object zroqTransportesCUIT: TStringField
+      FieldName = 'CUIT'
+      ReadOnly = True
+      Size = 11
+    end
+    object zroqTransportesRAZONSOCIAL: TStringField
+      FieldName = 'RAZONSOCIAL'
+      ReadOnly = True
+      Size = 100
+    end
+  end
+  object zroqMercaderias: TZReadOnlyQuery
+    Connection = zConnection
+    SQL.Strings = (
+      'SELECT r.IDMERCADERIA, r.DESCRIPCION'
+      'FROM MERCADERIAS r')
+    Params = <>
+    Left = 272
+    Top = 144
+    object zroqMercaderiasIDMERCADERIA: TIntegerField
+      FieldName = 'IDMERCADERIA'
+      ReadOnly = True
+    end
+    object zroqMercaderiasDESCRIPCION: TStringField
+      FieldName = 'DESCRIPCION'
+      ReadOnly = True
+      Size = 100
+    end
+  end
+  object zroqVehiculos: TZReadOnlyQuery
+    Connection = zConnection
+    SQL.Strings = (
+      'SELECT r.IDVEHICULO, r.PATENTECHASIS, r.PATENTEACOPOLADO,'
+      'r.PATENTECHASIS||'#39' - '#39'||r.PATENTEACOPOLADO AS CAMION'
+      'FROM VEHICULOS r')
+    Params = <>
+    Left = 176
+    Top = 192
+    object zroqVehiculosIDVEHICULO: TIntegerField
+      FieldName = 'IDVEHICULO'
+      ReadOnly = True
+    end
+    object zroqVehiculosPATENTECHASIS: TStringField
+      FieldName = 'PATENTECHASIS'
+      ReadOnly = True
+      Size = 10
+    end
+    object zroqVehiculosPATENTEACOPOLADO: TStringField
+      FieldName = 'PATENTEACOPOLADO'
+      ReadOnly = True
+      Size = 10
+    end
+    object zroqVehiculosCAMION: TStringField
+      FieldName = 'CAMION'
+      ReadOnly = True
+      Size = 23
+    end
+  end
+  object zroqChoferes: TZReadOnlyQuery
+    Connection = zConnection
+    SQL.Strings = (
+      
+        'SELECT r.NRODNI, r.IDTIPODNI, r.IDNACIONALIDAD, r.NOMBRE, r.APEL' +
+        'LIDO,'
+      'r.NRODNI||'#39' - '#39'||r.NOMBRE||'#39' - '#39'||r.APELLIDO as CHOFER'
+      'FROM CHOFERES r')
+    Params = <>
+    Left = 272
+    Top = 192
+    object zroqChoferesNRODNI: TIntegerField
+      FieldName = 'NRODNI'
+      ReadOnly = True
+    end
+    object zroqChoferesIDTIPODNI: TIntegerField
+      FieldName = 'IDTIPODNI'
+      ReadOnly = True
+    end
+    object zroqChoferesIDNACIONALIDAD: TIntegerField
+      FieldName = 'IDNACIONALIDAD'
+      ReadOnly = True
+    end
+    object zroqChoferesNOMBRE: TStringField
+      FieldName = 'NOMBRE'
+      ReadOnly = True
+      Size = 50
+    end
+    object zroqChoferesAPELLIDO: TStringField
+      FieldName = 'APELLIDO'
+      ReadOnly = True
+      Size = 50
+    end
+    object zroqChoferesCHOFER: TStringField
+      FieldName = 'CHOFER'
+      ReadOnly = True
+      Size = 117
+    end
+  end
+  object zroqContenedores: TZReadOnlyQuery
+    Connection = zConnection
+    SQL.Strings = (
+      
+        'SELECT r.IDCONTENEDOR, r.IDENTIFICADORCONTENEDOR, r.PESOBRUTO, r' +
+        '.PESOTARA'
+      'FROM CONTENEDORES r')
+    Params = <>
+    Left = 376
+    Top = 96
+    object zroqContenedoresIDCONTENEDOR: TIntegerField
+      FieldName = 'IDCONTENEDOR'
+      ReadOnly = True
+    end
+    object zroqContenedoresIDENTIFICADORCONTENEDOR: TStringField
+      FieldName = 'IDENTIFICADORCONTENEDOR'
+      ReadOnly = True
+      Size = 50
+    end
+    object zroqContenedoresPESOBRUTO: TIntegerField
+      FieldName = 'PESOBRUTO'
+      ReadOnly = True
+    end
+    object zroqContenedoresPESOTARA: TIntegerField
+      FieldName = 'PESOTARA'
+      ReadOnly = True
+    end
+  end
+  object zroqEstados: TZReadOnlyQuery
+    Connection = zConnection
+    SQL.Strings = (
+      'SELECT r.IDESTADO, r.ESTADO'
+      'FROM ESTADOS r')
+    Params = <>
+    Left = 376
+    Top = 144
+    object zroqEstadosIDESTADO: TIntegerField
+      FieldName = 'IDESTADO'
+      ReadOnly = True
+    end
+    object zroqEstadosESTADO: TStringField
+      FieldName = 'ESTADO'
+      ReadOnly = True
+      Size = 100
+    end
+  end
+end
