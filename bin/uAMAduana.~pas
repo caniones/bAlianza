@@ -1,0 +1,43 @@
+unit uAMAduana;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, uImputForm, StdCtrls, Buttons, ExtCtrls, ComCtrls, Mask,
+  DBCtrls, DB;
+
+type
+  TfrmAMAduana = class(TfrmImput)
+    dbeCodigoLOT: TDBEdit;
+    dbeNroCertificado: TDBEdit;
+    dtpFecha: TDateTimePicker;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    dbeCodigoAduana: TDBEdit;
+    procedure btnAceptarClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmAMAduana: TfrmAMAduana;
+
+implementation
+
+uses udmAduanas;
+
+{$R *.dfm}
+
+procedure TfrmAMAduana.btnAceptarClick(Sender: TObject);
+begin
+  inherited;
+  dsDatos.DataSet.FieldByName('FECHAVENCIMIENTO').AsDateTime:=dtpFecha.Date;
+  ModalResult:=mrOK;
+end;
+
+end.

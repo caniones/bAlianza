@@ -1,0 +1,28 @@
+unit uAMMercaderia;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, uImputForm, DB, StdCtrls, Buttons, ExtCtrls, Mask, DBCtrls;
+
+type
+  TfrmAMMercaderia = class(TfrmImput)
+    dbeDescripcion: TDBEdit;
+    Label1: TLabel;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmAMMercaderia: TfrmAMMercaderia;
+
+implementation
+
+uses udmMercaderias;
+
+{$R *.dfm}
+
+end.
