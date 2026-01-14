@@ -1,0 +1,88 @@
+object dmExportadores: TdmExportadores
+  OldCreateOrder = False
+  OnCreate = DataModuleCreate
+  Left = 570
+  Top = 238
+  Height = 277
+  Width = 348
+  object zqExportadores: TZQuery
+    Connection = dmConexion.zConnection
+    SortedFields = 'RAZONSOCIAL'
+    UpdateObject = zusExportadores
+    SQL.Strings = (
+      'SELECT r.IDEXPORTADOR, r.CUIT, r.RAZONSOCIAL, r.FECHABAJA'
+      'FROM EXPORTADORES r')
+    Params = <>
+    IndexFieldNames = 'RAZONSOCIAL Asc'
+    Sequence = zsGeneral
+    SequenceField = 'IDEXPORTADOR'
+    Left = 56
+    Top = 24
+    object zqExportadoresIDEXPORTADOR: TIntegerField
+      FieldName = 'IDEXPORTADOR'
+      Required = True
+    end
+    object zqExportadoresCUIT: TStringField
+      FieldName = 'CUIT'
+      Required = True
+      Size = 11
+    end
+    object zqExportadoresRAZONSOCIAL: TStringField
+      DisplayWidth = 30
+      FieldName = 'RAZONSOCIAL'
+      Required = True
+      Size = 100
+    end
+    object zqExportadoresFECHABAJA: TDateField
+      DisplayWidth = 20
+      FieldName = 'FECHABAJA'
+    end
+  end
+  object zsGeneral: TZSequence
+    Connection = dmConexion.zConnection
+    SequenceName = 'GENERAL'
+    Left = 56
+    Top = 80
+  end
+  object zusExportadores: TZUpdateSQL
+    DeleteSQL.Strings = (
+      'UPDATE EXPORTADORES a'
+      'SET '
+      '    a.FECHABAJA = '#39'NOW'#39
+      'WHERE'
+      '    a.IDEXPORTADOR = :IDEXPORTADOR')
+    InsertSQL.Strings = (
+      'INSERT INTO EXPORTADORES (IDEXPORTADOR, CUIT, RAZONSOCIAL)'
+      'VALUES ('
+      '    :IDEXPORTADOR, '
+      '    :CUIT, '
+      '    :RAZONSOCIAL'
+      ');')
+    ModifySQL.Strings = (
+      'UPDATE EXPORTADORES a'
+      'SET '
+      '    a.CUIT = :CUIT, '
+      '    a.RAZONSOCIAL = :RAZONSOCIAL'
+      'WHERE'
+      '    a.IDEXPORTADOR = :IDEXPORTADOR')
+    UseSequenceFieldForRefreshSQL = False
+    Left = 56
+    Top = 136
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'CUIT'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'RAZONSOCIAL'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'IDEXPORTADOR'
+        ParamType = ptUnknown
+      end>
+  end
+end

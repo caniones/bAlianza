@@ -1,0 +1,78 @@
+object dmTransportes: TdmTransportes
+  OldCreateOrder = False
+  OnCreate = DataModuleCreate
+  Left = 493
+  Top = 184
+  Height = 317
+  Width = 389
+  object zqTransportes: TZQuery
+    Connection = dmConexion.zConnection
+    SortedFields = 'RAZONSOCIAL'
+    UpdateObject = zusTransportes
+    SQL.Strings = (
+      'SELECT r.IDTRANSPORTE, r.CUIT, r.RAZONSOCIAL'
+      'FROM TRANSPORTES r')
+    Params = <>
+    IndexFieldNames = 'RAZONSOCIAL Asc'
+    Sequence = zsGeneral
+    SequenceField = 'IDTRANSPORTE'
+    Left = 40
+    Top = 24
+    object zqTransportesIDTRANSPORTE: TIntegerField
+      FieldName = 'IDTRANSPORTE'
+      Required = True
+    end
+    object zqTransportesCUIT: TStringField
+      FieldName = 'CUIT'
+      Required = True
+      Size = 11
+    end
+    object zqTransportesRAZONSOCIAL: TStringField
+      DisplayWidth = 30
+      FieldName = 'RAZONSOCIAL'
+      Required = True
+      Size = 100
+    end
+  end
+  object zsGeneral: TZSequence
+    Connection = dmConexion.zConnection
+    SequenceName = 'GENERAL'
+    Left = 40
+    Top = 80
+  end
+  object zusTransportes: TZUpdateSQL
+    InsertSQL.Strings = (
+      'INSERT INTO TRANSPORTES (IDTRANSPORTE, CUIT, RAZONSOCIAL)'
+      'VALUES ('
+      '    :IDTRANSPORTE, '
+      '    :CUIT, '
+      '    :RAZONSOCIAL'
+      ');')
+    ModifySQL.Strings = (
+      'UPDATE TRANSPORTES a'
+      'SET '
+      '    a.CUIT = :CUIT, '
+      '    a.RAZONSOCIAL = :RAZONSOCIAL'
+      'WHERE'
+      '    a.IDTRANSPORTE = :IDTRANSPORTE')
+    UseSequenceFieldForRefreshSQL = False
+    Left = 40
+    Top = 136
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'CUIT'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'RAZONSOCIAL'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'IDTRANSPORTE'
+        ParamType = ptUnknown
+      end>
+  end
+end

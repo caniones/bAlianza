@@ -1,0 +1,95 @@
+object dmContenedores: TdmContenedores
+  OldCreateOrder = False
+  OnCreate = DataModuleCreate
+  Left = 579
+  Top = 208
+  Height = 395
+  Width = 449
+  object zqContenedores: TZQuery
+    Connection = dmConexion.zConnection
+    SortedFields = 'IDCONTENEDOR'
+    SortType = stDescending
+    UpdateObject = zusContenedores
+    OnNewRecord = zqContenedoresNewRecord
+    SQL.Strings = (
+      
+        'SELECT r.IDCONTENEDOR, r.IDENTIFICADORCONTENEDOR, r.PESOBRUTO, r' +
+        '.PESOTARA'
+      'FROM CONTENEDORES r')
+    Params = <>
+    IndexFieldNames = 'IDCONTENEDOR Desc'
+    Sequence = zsGeneral
+    SequenceField = 'IDCONTENEDOR'
+    Left = 40
+    Top = 24
+    object zqContenedoresIDCONTENEDOR: TIntegerField
+      FieldName = 'IDCONTENEDOR'
+      Required = True
+    end
+    object zqContenedoresIDENTIFICADORCONTENEDOR: TStringField
+      DisplayWidth = 30
+      FieldName = 'IDENTIFICADORCONTENEDOR'
+      Required = True
+      Size = 50
+    end
+    object zqContenedoresPESOBRUTO: TIntegerField
+      DisplayWidth = 15
+      FieldName = 'PESOBRUTO'
+    end
+    object zqContenedoresPESOTARA: TIntegerField
+      DisplayWidth = 15
+      FieldName = 'PESOTARA'
+    end
+  end
+  object zsGeneral: TZSequence
+    Connection = dmConexion.zConnection
+    SequenceName = 'GENERAL'
+    Left = 40
+    Top = 80
+  end
+  object zusContenedores: TZUpdateSQL
+    InsertSQL.Strings = (
+      
+        'INSERT INTO CONTENEDORES (IDCONTENEDOR, IDENTIFICADORCONTENEDOR,' +
+        ' PESOBRUTO,'
+      '    PESOTARA)'
+      'VALUES ('
+      '    :IDCONTENEDOR, '
+      '    :IDENTIFICADORCONTENEDOR, '
+      '    :PESOBRUTO, '
+      '    :PESOTARA'
+      ');')
+    ModifySQL.Strings = (
+      'UPDATE CONTENEDORES a'
+      'SET '
+      '    a.IDENTIFICADORCONTENEDOR = :IDENTIFICADORCONTENEDOR, '
+      '    a.PESOBRUTO = :PESOBRUTO, '
+      '    a.PESOTARA = :PESOTARA'
+      'WHERE'
+      '    a.IDCONTENEDOR = :IDCONTENEDOR')
+    UseSequenceFieldForRefreshSQL = False
+    Left = 40
+    Top = 136
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'IDENTIFICADORCONTENEDOR'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'PESOBRUTO'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'PESOTARA'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'IDCONTENEDOR'
+        ParamType = ptUnknown
+      end>
+  end
+end
